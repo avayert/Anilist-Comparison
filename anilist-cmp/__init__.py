@@ -28,6 +28,9 @@ user{number}: MediaListCollection(userName: $username{number}, status: $status, 
                     english
                     native
                 }}
+                coverImage {{
+                    medium
+                }}
                 siteUrl
             }}
         }}

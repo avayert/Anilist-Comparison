@@ -14,7 +14,7 @@
     <button data-column="native">Toggle Native</button>
     <thead>
     <tr>
-        <th>Media ID</th>
+        <th>Cover</th>
         <th>Romaji</th>
         <th>English</th>
         <th>Native</th>
@@ -29,10 +29,11 @@
     <tbody>
     {% for entry in entries %}
         <tr>
-            <td>{{ entry['id'] }}</td>
-            <td><a href="{{ entry['siteUrl'] }}">{{ entry['title']['romaji'] }}</a></td>
-            <td><a href="{{ entry['siteUrl'] }}">{{ entry['title']['english'] }}</a></td>
-            <td><a href="{{ entry['siteUrl'] }}">{{ entry['title']['native'] }}</a></td>
+            <td><a href="{{ entry['siteUrl'] }}"><img src="{{ entry['coverImage']['medium'] }}"
+                                                      alt="Cover for '{{ entry['title']['romaji'] }}'"></a></td>
+            <td>{{ entry['title']['romaji'] }}</td>
+            <td>{{ entry['title']['english'] }}</td>
+            <td>{{ entry['title']['native'] }}</td>
         </tr>
     {% endfor %}
     </tbody>
