@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import pathlib
 from collections import ChainMap
 from enum import Enum
@@ -182,7 +183,7 @@ async def get_matches(user_list: str, status: str = "planning") -> Response[str]
         )
 
     context = dict(entries=sorted(matching_items.values(), key=lambda entry: entry['id']), status=selected_status,
-                   description=f'Common anime for {_human_join(usernames)}')
+                   description=f'Common anime for {_human_join(usernames)}', itertools=itertools, enumerate=enumerate)
     return Template(template_name='page.html', context=context)
 
 

@@ -6,6 +6,11 @@
     <title>Anilist common anime tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ description }}">
+
+    <!-- preload the first five images, lazy load the rest -->
+    {% for entry in itertools.islice(entries, 5) %}
+        <link rel="preload" as="image" href="{{ entry['coverImage']['medium'] }}" crossorigin>
+    {% endfor %}
 </head>
 <body>
 <table>
@@ -27,9 +32,10 @@
         <col id="native">
     </colgroup>
     <tbody>
-    {% for entry in entries %}
+    {% for index, entry in enumerate(entries) %}
         <tr>
-            <td><a href="{{ entry['siteUrl'] }}"><img src="{{ entry['coverImage']['medium'] }}"
+            <td><a href="{{ entry['siteUrl'] }}"><img loading="{{ 'eager' if index < 5 else 'lazy' }}"
+                                                      src="{{ entry['coverImage']['medium'] }}"
                                                       alt="Cover for '{{ entry['title']['romaji'] }}'"></a></td>
             <td>{{ entry['title']['romaji'] }}</td>
             <td>{{ entry['title']['english'] }}</td>
