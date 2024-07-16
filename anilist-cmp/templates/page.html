@@ -13,37 +13,20 @@
     {% endfor %}
 </head>
 <body>
-<table>
-    <button data-column="romaji">Toggle Romaji</button>
-    <button data-column="english">Toggle English</button>
-    <button data-column="native">Toggle Native</button>
-    <thead>
-    <tr>
-        <th>Cover</th>
-        <th>Romaji</th>
-        <th>English</th>
-        <th>Native</th>
-    </tr>
-    </thead>
-    <colgroup>
-        <col>
-        <col id="romaji">
-        <col id="english">
-        <col id="native">
-    </colgroup>
-    <tbody>
-    {% for index, entry in enumerate(entries) %}
-        <tr>
-            <td><a href="{{ entry['siteUrl'] }}"><img loading="{{ 'eager' if index < 5 else 'lazy' }}"
-                                                      src="{{ entry['coverImage']['medium'] }}"
-                                                      alt="Cover for '{{ entry['title']['romaji'] }}'"></a></td>
-            <td>{{ entry['title']['romaji'] }}</td>
-            <td>{{ entry['title']['english'] }}</td>
-            <td>{{ entry['title']['native'] }}</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>
+{% for index, entry in enumerate(entries) %}
+    <div class="anime">
+        <a href="{{ entry['siteUrl'] }}">
+            <img loading="{{ 'eager' if index < 5 else 'lazy' }}"
+                 src="{{ entry['coverImage']['medium'] }}"
+                 alt="Cover for '{{ entry['title']['romaji'] }}'">
+        </a>
+        <ul>
+            <li title="{{ entry['title']['english'] }}">{{ entry['title']['english'] }}</li>
+            <li title="{{ entry['title']['native'] }}">{{ entry['title']['native'] }}</li>
+            <li title="{{ entry['title']['romaji'] }}">{{ entry['title']['romaji'] }}</li>
+        </ul>
+    </div>
+{% endfor %}
 </body>
 <script>
     const toggles = document.querySelectorAll('button');
@@ -66,4 +49,67 @@
         if (localStorage.getItem(column))
             document.getElementById(column).style.setProperty('visibility', 'collapse');
 </script>
+<style>
+    :root {
+        --background: #FFF;
+        --blur: 5px;
+        --distance: 1px;
+        --rounding: 20px;
+
+        background-color: var(--background);
+    }
+
+    @counter-style languages {
+        system: symbolic;
+        symbols: "🇬🇧" "🇯🇵" "🇮🇹";
+        suffix: " ";
+    }
+
+    ul {
+        list-style: languages;
+    }
+
+    body {
+        margin: 5vh 5vw;
+
+        display: grid;
+        gap: 15px 20px;
+        grid-template-columns: repeat(auto-fill, minmax(0, 30ic));
+    }
+
+    .anime, .anime :is(a, img) {
+        height: 140px;
+    }
+
+    .anime {
+        display: inline-flex;
+        align-items: center;
+
+        border-radius: var(--rounding);
+        border: 1px solid #EEE;
+        box-shadow: var(--distance) var(--distance) var(--blur) #AAA;
+    }
+
+    .anime ul {
+        padding: 0;
+        margin: 0 2ic;
+        list-style-position: inside
+    }
+
+    .anime li {
+        max-width: 20ic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .anime li::marker {
+        overflow: visible;
+    }
+
+    .anime img {
+        object-fit: contain;
+        border-radius: var(--rounding) 0 0 var(--rounding);
+    }
+</style>
 </html>
