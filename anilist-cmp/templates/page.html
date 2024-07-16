@@ -6,11 +6,6 @@
     <title>Anilist common anime tool</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="{{ description }}">
-
-    <!-- preload the first five images, lazy load the rest -->
-    {% for entry in itertools.islice(entries, 5) %}
-        <link rel="preload" as="image" href="{{ entry['coverImage']['medium'] }}" crossorigin>
-    {% endfor %}
 </head>
 <body>
 {% for index, entry in enumerate(entries) %}
@@ -108,8 +103,19 @@
     }
 
     .anime img {
+        display: block;
+        height: 100%;
+        min-width: 90px;
         object-fit: contain;
         border-radius: var(--rounding) 0 0 var(--rounding);
+
+        background: #EEE linear-gradient(90deg, #EEE 0%, #EEE 40%, white 50%, #EEE 60%, #EEE 100%) no-repeat;
+        animation: movebackground 1s ease-in-out infinite;
+    }
+
+    @keyframes movebackground {
+        0% { background-position-x: -100px; }
+        100% { background-position-x: 100px; }
     }
 </style>
 </html>
